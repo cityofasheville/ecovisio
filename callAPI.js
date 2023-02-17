@@ -1,54 +1,39 @@
 const fetch = require("node-fetch"); // using "npm install node-fetch@2" for now to avoid ES Modules
 
-async function getToken(secrets) {
-  let response = await fetch(secrets.api_url + secrets.auth_endpoint, {
-    method: 'POST',
-    body: `grant_type=client_credentials`,
-    headers: {
-      'Authorization': 'Basic ' + secrets.api_key, //this key is base64 of username:password
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
-
-  let json;
-  if (!response.ok) {
-    throw new Error(`HTTP error fetching token. status: ${response.status}`);
-  } else {
-    json = await response.json();
-    return json;
-  }
-}
-
-async function callAPI(secrets) {
+// Generic API call
+// Assumes API will return JSON
+async function callAPI(options) {
   try {
-    let startdate = new Date(new Date().setHours(-24, 0, 0, 0)).toISOString().substring(0, 11) + '00:00:00.000'; // yesterday midnight
-    let enddate = new Date(new Date().setHours(0, 0, 0, 0)).toISOString().substring(0, 11) + '00:00:00.000'; // today midnight
-
-    let tokenObj = await getToken(secrets);
-
-    let response = await fetch(secrets.api_url + secrets.list_sites_endpoint, {
-      method: 'GET',
-      // withCredentials: true,
-      headers: { 
-        'Authorization': 'Bearer ' + tokenObj.access_token
-      }
+    let response = await fetch(options.url, {
+      method: options.method,
+      body: options.body,
+      headers: options.headers,
     })
 
     if (!response.ok) {
-      throw new Error(`HTTP error. status: ${response.status}`)
+      throw new Error(`HTTP error. status: ${response.status}`);
     } else {
-      let data = await response.json()
-      console.log( data[0].id)
-      return data
+      let data = await response.json();
+      return data;
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    throw (err);
   }
-
-        // if (startdate && enddate) {
-      //   let querystring = '?FromDate=' + startdate + '&ToDate=' + enddate
-      //   apiurl = apiurl.concat(querystring)
-      // }
 }
 
-module.exports = callAPI
+module.exports = callAPI;
+
+
+/*
+let url = "https://httpbin.org/post";
+let method = 'post';
+let body = JSON.stringify({a: 1});
+let headers = {'Content-Type': 'application/json'};
+callAPI({
+  url,
+  method,
+  body,
+  headers
+})
+*/
