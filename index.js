@@ -1,4 +1,4 @@
-const getCounts = require('./getCounts.js');
+const getData = require('./getData');
 const getSecrets = require("./getSecrets");
 const secrets = require("./secret.noGITHUB.js");
 
@@ -10,7 +10,7 @@ async function x() {
   // const secrets = await getSecrets("eco-visio");
 
 
-  let data = await getCounts(secrets);
+  let data = await getData(secrets);
   // let db_result;
   // if(newPayroll === undefined) {
   //     db_result = {"recordsets": [],"output": {},"rowsAffected": [0]};
