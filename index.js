@@ -9,7 +9,7 @@ exports.handler = async function handler(event, context, callback) {
   if(event.getall) secrets.getall = event.getall;
   if(event.begin) secrets.begin = event.begin;
   if(event.end) secrets.end = event.end;
-
   const data = await getData(secrets);
-  await loadDb(secrets, data);
+  const insertCount = await loadDb(secrets, data);
+  return(`${insertCount} rows loaded.`);
 }

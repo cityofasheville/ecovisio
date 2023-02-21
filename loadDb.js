@@ -2,6 +2,7 @@ const { Client } = require("pg");
 
 async function loadDb(secrets, data) {
   try {
+    let insertCount = 0;
     const client = new Client({
       host: secrets.db_host,
       user: secrets.db_user,
@@ -23,10 +24,11 @@ async function loadDb(secrets, data) {
       longitude = EXCLUDED.longitude,
       photos = EXCLUDED.photos;
       `;
-      const res = await client.query(sql,
+      await client.query(sql,
         [counter.id, counter.name.replace(/'/g, "''"),
         counter.latitude, counter.longitude,
         JSON.stringify(counter.photos).replace(/'/g, "''")]);
+        insertCount += 1;
       for (const channel of counter.channels) {
         let sql = `
         INSERT INTO bike_counter.counter_channels
@@ -35,8 +37,9 @@ async function loadDb(secrets, data) {
         ON CONFLICT (counter_id, channel_id) DO UPDATE SET
         channel_name = EXCLUDED.channel_name;
         `;
-        const res = await client.query(sql,
+        await client.query(sql,
           [counter.id, channel.id, channel.name.replace(/'/g, "''")]);
+          insertCount += 1;
         for (const results of channel.results) {
           let sql = `
           INSERT INTO bike_counter.counter_counts
@@ -45,12 +48,15 @@ async function loadDb(secrets, data) {
           ON CONFLICT (channel_id, iso_date) DO UPDATE SET
           counts = EXCLUDED.counts;
           `;
-          const res = await client.query(sql,
+          await client.query(sql,
             [channel.id, results.isoDate, results.counts]);
+          insertCount += 1;
         }
       }
     }
     await client.end();
+    console.log(`${insertCount} Rows Loaded`);
+    return insertCount;
   }
   catch (err) {
     throw err

@@ -69,6 +69,7 @@ async function getData(secrets) {
     let data = await Promise.all(sites.map(async site => {
       return getOneSite(site, secrets);
     }));
+    console.log(`Downloaded ${data.length} Sites`);
     return data;
   } catch (err) {
     console.log(err)

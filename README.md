@@ -5,11 +5,12 @@ Run daily to pull bicycle and pedestrian counts and load them into database.
 
 Plan is to publicly display on a dashboard.
 
-## Optional params:
-These can be added to Lambda in test mode
+## Date parameters:
+Run without parameters for yesterday's data.
+These parameters can be added to Lambda in test mode:
 #### Set specific start or end date 
 {
-  "begin": "2023-02-17T00:00:00.000Z" 
+  "begin": "2023-02-17T00:00:00.000Z",
   "end":   "2023-02-18T00:00:00.000Z"
 }
 #### If getall, begin date is set to firstData for each counter. For initial load.
