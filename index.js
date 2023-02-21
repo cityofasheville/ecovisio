@@ -1,7 +1,6 @@
 const getData = require('./getData');
 const loadDb = require('./loadDb');
 const getSecrets = require("./getSecrets");
-const secrets = require("./secret.noGITHUB.js");
 
 exports.handler = async function handler(event, context, callback) {
 

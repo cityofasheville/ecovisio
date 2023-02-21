@@ -10,6 +10,12 @@ provider "aws" {
   region = var.region
 }
 
+resource "aws_lambda_layer_version" "ecovisio_layer" {
+  filename   = "layer.zip"
+  source_code_hash = filebase64sha256("layer.zip")
+  layer_name = "ecovisio_layer"
+}
+
 resource "aws_lambda_function" "ecovisio" {
   filename         = "function.zip"
   description      = "Read bike/ped counts from Eco-Visio API" 
@@ -18,6 +24,7 @@ resource "aws_lambda_function" "ecovisio" {
   handler          = "index.handler"
   runtime          = "nodejs18.x"
   source_code_hash = filebase64sha256("function.zip")
+  layers = [aws_lambda_layer_version.ecovisio_layer.arn]
   timeout          = 900
   # memory_size      = 256
   vpc_config {
