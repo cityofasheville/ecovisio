@@ -32,3 +32,9 @@ The secret eco-visio is added to AWS Secrets Manager
   "db_password": "",
   "db_database": "",
 }
+
+## Deploy and local testing
+Test locally using SAM: utils/test/runsame.sh
+Deploy Lambda Layers: utils/deploy_layer/zipdeploy_layer.sh
+Deploy code: utils/deploy/zipdeploy.sh
+

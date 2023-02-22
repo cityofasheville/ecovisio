@@ -6,14 +6,17 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.region
+data "terraform_remote_state" "ecovisio_layer" {
+  backend = "s3"
+  config = {
+    bucket = "avl-tfstate-store"
+    key    = "terraform/ecovisio/layer/terraform_dev.tfstate"
+    region = "us-east-1"
+  }
 }
 
-resource "aws_lambda_layer_version" "ecovisio_layer" {
-  filename   = "layer.zip"
-  source_code_hash = filebase64sha256("layer.zip")
-  layer_name = "ecovisio_layer"
+provider "aws" {
+  region = var.region
 }
 
 resource "aws_lambda_function" "ecovisio" {
@@ -24,7 +27,7 @@ resource "aws_lambda_function" "ecovisio" {
   handler          = "index.handler"
   runtime          = "nodejs18.x"
   source_code_hash = filebase64sha256("function.zip")
-  layers = [aws_lambda_layer_version.ecovisio_layer.arn]
+  layers = [data.terraform_remote_state.ecovisio_layer.outputs.ecovisio_layer_arn]
   timeout          = 900
   # memory_size      = 256
   vpc_config {

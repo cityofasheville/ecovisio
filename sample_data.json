@@ -1,0 +1,46 @@
+[
+  {
+    "id": 300027121,
+    "name": "FBR West @ Dog Park",
+    "latitude": 35.57233953271127,
+    "longitude": -82.56536722183229,
+    "photos": [
+      "https://filer.eco-counter-tools.com/file/99/f6bd41499db1c3f3a407b8f115325752fcf0eef7921f9698059f843b3443d999/FBR West counter.jpg?filename=FBR West_Dog Park.jpg"
+    ],
+    "results": [
+      {
+        "isoDate": "2023-02-19T00:00:00-0500",
+        "counts": 0
+      }
+    ],
+    "channels": [
+      {
+        "id": 353331705,
+        "name": "FBR West @ Dog Park Pedestrian IN",
+        "latitude": 35.57233953271127,
+        "longitude": -82.56536722183229,
+        "photos": null,
+        "results": [
+          {
+            "isoDate": "2023-02-19T00:00:00-0500",
+            "counts": 0
+          }
+        ]
+      },
+      {
+        "id": 353331706,
+        "name": "FBR West @ Dog Park Pedestrian OUT",
+        "latitude": 35.57233953271127,
+        "longitude": -82.56536722183229,
+        "photos": null,
+        "results": [
+          {
+            "isoDate": "2023-02-19T00:00:00-0500",
+            "counts": 0
+          }
+        ]
+      }
+    ]
+  }
+]
+          
