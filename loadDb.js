@@ -25,9 +25,9 @@ async function loadDb(secrets, data) {
       photos = EXCLUDED.photos;
       `;
       await client.query(sql,
-        [counter.id, counter.name.replace(/'/g, "''"),
+        [counter.id, counter.name,
         counter.latitude, counter.longitude,
-        JSON.stringify(counter.photos).replace(/'/g, "''")]);
+        JSON.stringify(counter.photos)]);
         insertCount += 1;
       for (const channel of counter.channels) {
         let sql = `
@@ -38,7 +38,7 @@ async function loadDb(secrets, data) {
         channel_name = EXCLUDED.channel_name;
         `;
         await client.query(sql,
-          [counter.id, channel.id, channel.name.replace(/'/g, "''")]);
+          [counter.id, channel.id, channel.name]);
           insertCount += 1;
         for (const results of channel.results) {
           let sql = `

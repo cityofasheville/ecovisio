@@ -1,5 +1,5 @@
 -- create tables -------------
-drop table bike_counter.counters ;
+drop table bike_counter.counters cascade;
 create table bike_counter.counters (
 	counter_id int4 NOT NULL,
 	counter_name text null,
@@ -8,14 +8,19 @@ create table bike_counter.counters (
 	photos json null,
 	CONSTRAINT "PK_bike_counters" PRIMARY KEY (counter_id)
 );
+GRANT ALL ON TABLE bike_counter.counters TO bike_counter_user;
 
-drop table bike_counter.counter_channels ;
+drop table bike_counter.counter_channels cascade;
 create table bike_counter.counter_channels (
 	counter_id int4 NOT NULL,
 	channel_id int4 not null,
 	channel_name text null,
+	"type" text GENERATED ALWAYS AS (case when channel_name like '%Pedestrian%' then 'Pedestrian' 
+ when channel_name like '%Cyclist%' then 'Cyclist'
+ else 'Other' end) stored,
 	CONSTRAINT "PK_bike_counter_channels" PRIMARY KEY (counter_id, channel_id)
 );
+GRANT ALL ON TABLE bike_counter.counter_channels TO bike_counter_user;
 
 drop table bike_counter.counter_counts cascade ;
 create table bike_counter.counter_counts (
@@ -24,13 +29,27 @@ create table bike_counter.counter_counts (
 	counts int4 null,
 	CONSTRAINT "PK_bike_counter_counts" PRIMARY KEY (channel_id, iso_date)
 );
--- create view -------------
+GRANT ALL ON TABLE bike_counter.counter_counts TO bike_counter_user;
+
+-- create views -------------
 create view bike_counter.counter_data as
 select * from bike_counter.counters c
 natural join bike_counter.counter_channels cc 
 natural join bike_counter.counter_counts cc2; 
 
 
+CREATE OR REPLACE VIEW bike_counter.bike_counters_by_type AS
+SELECT c.counter_id,
+    c.counter_name,
+    date(cc2.iso_date) AS date,
+    "type",
+    sum(coalesce(cc2.counts,0)) AS cnt
+   FROM bike_counter.counters c
+     JOIN bike_counter.counter_channels cc USING (counter_id)
+     JOIN bike_counter.counter_counts cc2 USING (channel_id)
+  GROUP BY c.counter_id, c.counter_name, (date(cc2.iso_date)), "type"
+  ORDER BY (date(cc2.iso_date)) DESC;
+  
 
 -- OTHER TESTS-------------
 select count(*) from bike_counter.counters;
