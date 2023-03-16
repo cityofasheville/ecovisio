@@ -1,26 +1,18 @@
+const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
 
-const { SecretsManagerClient, GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager");
-
-async function getSecrets(secret_name) {
-
+async function getSecrets(secretName) {
   const client = new SecretsManagerClient({
-    region: "us-east-1",
+    region: 'us-east-1',
   });
 
-  let response;
-
-  try {
-    response = await client.send(
-      new GetSecretValueCommand({
-        SecretId: secret_name
-      })
-    );
-  } catch (error) {
-    throw error;
-  }
+  const response = await client.send(
+    new GetSecretValueCommand({
+      SecretId: secretName,
+    }),
+  );
 
   const secrets = JSON.parse(response.SecretString);
-  return secrets
+  return secrets;
 }
 
 module.exports = getSecrets;
