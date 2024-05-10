@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const callAPI = require('./callAPI');
+import callAPI from './callAPI.js';
 
 async function getToken(secrets) {
   const options = {};
@@ -81,4 +81,4 @@ async function getData(secParam) {
   }
 }
 
-module.exports = getData;
+export default getData;

@@ -1,5 +1,5 @@
 # ecovisio
-Connect to Eco-Visio API and load pedestrian and bycycle counts into db.
+Connect to Eco-Visio API and load pedestrian and bicycle counts into db.
 
 Run daily to pull bicycle and pedestrian counts and load them into database.
 
@@ -33,8 +33,11 @@ The secret eco-visio is added to AWS Secrets Manager
   "db_database": "",
 }
 
-## Deploy and local testing
-Test locally using SAM: utils/test/runsame.sh
-Deploy Lambda Layers: utils/deploy_layer/zipdeploy_layer.sh
-Deploy code: utils/deploy/zipdeploy.sh
+## deploy
+A file named .env is required in the root dir. The format required is shown in env.example.
+### Commands
+- Test locally: npm start (Notice the database calls are idempotent so they can be tested without breaking anything.)
+- Deploy: npm run deploy
+- Clean: npm run clean (removes local temp files)
+- Destroy: npm run destroy (removes all objects from AWS)
 

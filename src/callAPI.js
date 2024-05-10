@@ -1,4 +1,4 @@
-const fetch = require("node-fetch"); // using "npm install node-fetch@2" for now to avoid ES Modules
+import fetch from "node-fetch";
 
 // Generic API call
 // Assumes API will return JSON
@@ -22,7 +22,7 @@ async function callAPI(options) {
   }
 }
 
-module.exports = callAPI;
+export default callAPI;
 
 
 /*
