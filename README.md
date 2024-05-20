@@ -35,9 +35,14 @@ The secret eco-visio is added to AWS Secrets Manager
 
 ## deploy
 A file named .env is required in the root dir. The format required is shown in env.example.
+
 ### Commands
-- Test locally: npm start (Notice the database calls are idempotent so they can be tested without breaking anything.)
-- Deploy: npm run deploy
+- Test Locally: npm start
+- Deploy: 
+  - npm run deploy prod
+  - npm run deploy dev
+- Destroy: (removes all objects from AWS)
+  - npm run destroy prod
+  - npm run destroy dev 
 - Clean: npm run clean (removes local temp files)
-- Destroy: npm run destroy (removes all objects from AWS)
 
