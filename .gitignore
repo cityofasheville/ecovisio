@@ -1,5 +1,6 @@
 .env
 node_modules/
 build/
+deploy.yaml
 
 .DS_Store
