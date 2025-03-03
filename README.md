@@ -37,12 +37,17 @@ The secret eco-visio is added to AWS Secrets Manager
 A file named .env is required in the root dir. The format required is shown in env.example.
 
 ### Commands
-- Test Locally: npm start
+First run ```npm install```
+
+- Test Locally: 
+  - ```npm start``` (or for a Python program: ```npm run startpy```)
 - Deploy: 
-  - npm run deploy prod
-  - npm run deploy dev
+  - ```npm run deploy```
 - Destroy: (removes all objects from AWS)
-  - npm run destroy prod
-  - npm run destroy dev 
-- Clean: npm run clean (removes local temp files)
+  - ```npm run destroy```
+- Clean: 
+  - ```npm run clean``` (removes local temp files)
+
+The Deploy/Destroy commands use the name of the active GitHub branch when creating AWS resources.
+For example, if the active GitHub branch is "feature" and the name of the resource is "template", the resource is named "template_feature". For API gateway domains, it's "feature-template.ashevillenc.gov". Production (or main) branches do not get a prefix/suffix.
 
