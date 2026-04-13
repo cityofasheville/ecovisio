@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 
 try {
   // Running dev or prod?
-  const gitBranch = execSync('git branch --show-current').toString().trim();
+  const gitBranch = execSync('git branch --show-current').toString().trim().split('/').pop();
   
   let deployType = gitBranch;
 
@@ -15,10 +15,10 @@ try {
   } else if (deployType === 'development') {
     buildDir += 'dev';
   } else {
-    buildDir += deployType
+    buildDir += deployType;
   }
 
-  execSync(`cd ${buildDir} && terraform init && terraform destroy -auto-approve`, { stdio: 'inherit' });
+  execSync(`cd ${buildDir} && terraform init && terraform destroy`, { stdio: 'inherit' });
 
 }
 catch (err) {

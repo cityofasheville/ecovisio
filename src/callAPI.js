@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 // Generic API call
 // Assumes API will return JSON
 async function callAPI(options) {

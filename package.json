@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.572.0",
-    "node-fetch": "^3.3.2",
     "pg": "^8.11.5"
   },
   "devDependencies": {
